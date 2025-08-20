@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PokéDex Numar • Barra a la derecha</title>
+  <!-- Tailwind via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body class="bg-slate-50 text-slate-800 selection:bg-indigo-200 selection:text-slate-900">
+  <!-- Wrapper: en desktop invierte el orden para que la barra quede a la derecha -->
+  <div class="min-h-screen flex flex-col md:flex-row-reverse">
+    <!-- Sidebar (derecha en md+) -->
+    <aside class="w-full md:w-80 border-t md:border-t-0 md:border-l border-slate-200 bg-white/80 backdrop-blur p-4 md:sticky md:top-0 md:h-screen overflow-y-auto">
+      <h2 class="text-xl font-semibold mb-4">Filtros</h2>
+
+      <!-- Búsqueda -->
+      <label class="block text-sm font-medium mb-1" for="q">Buscar</label>
+      <input id="q" type="search" placeholder="nombre o #id"
+             class="w-full rounded-xl border border-slate-200 px-3 py-2 mb-3 outline-none focus:ring-2 focus:ring-indigo-400 transition" />
+
+      <!-- Tipos -->
+      <details class="mb-3 group" open>
+        <summary class="cursor-pointer text-sm font-medium mb-2">Tipos</summary>
+        <div class="grid grid-cols-2 gap-2 text-sm" id="typesContainer">
+          <!-- checkboxes generados por JS -->
+        </div>
+      </details>
+
+      <!-- Generación -->
+      <label class="block text-sm font-medium mb-1" for="gen">Generación</label>
+      <select id="gen" class="w-full rounded-xl border border-slate-200 px-3 py-2 mb-3 focus:ring-2 focus:ring-indigo-400">
+        <option value="">Todas</option>
+        <option value="1">Gen 1 (1–151)</option>
+        <option value="2">Gen 2 (152–251)</option>
+        <option value="3">Gen 3 (252–386)</option>
+        <option value="4">Gen 4 (387–493)</option>
+        <option value="5">Gen 5 (494–649)</option>
+        <option value="6">Gen 6 (650–721)</option>
+        <option value="7">Gen 7 (722–809)</option>
+        <option value="8">Gen 8 (810–905)</option>
+        <option value="9">Gen 9 (906–1010)</option>
+      </select>
+
+      <!-- Orden -->
+      <label class="block text-sm font-medium mb-1" for="sort">Ordenar</label>
+      <select id="sort" class="w-full rounded-xl border border-slate-200 px-3 py-2 mb-4 focus:ring-2 focus:ring-indigo-400">
+        <option value="id-asc">ID ↑</option>
+        <option value="id-desc">ID ↓</option>
+        <option value="name-asc">Nombre A→Z</option>
+        <option value="name-desc">Nombre Z→A</option>
+      </select>
+
+      <div class="flex items-center gap-2 mb-6">
+        <button id="applyBtn" class="btn-primary">Aplicar</button>
+        <button id="resetBtn" class="btn-secondary">Limpiar</button>
+      </div>
+
+      <p class="text-xs text-slate-500">
+        Tip: en escritorio la barra está a la <strong>derecha</strong>.
+        En móvil se muestra arriba para mejor usabilidad.
+      </p>
+    </aside>
+
+    <!-- Contenido principal -->
+    <main class="flex-1 p-4 md:p-8">
+      <header class="flex items-center justify-between gap-4 mb-6">
+        <div>
+          <h1 class="text-2xl md:text-3xl font-bold">PokéDex Numar</h1>
+          <p class="text-sm text-slate-500">Proyecto educativo con Tailwind + PokeAPI</p>
+        </div>
+        <a href="#top" id="toTop"
+           class="hidden md:inline-flex items-center rounded-full border px-3 py-1 text-sm shadow-sm hover:shadow transition">
+          ↑ Arriba
+        </a>
+      </header>
+
+      <!-- Grid de tarjetas -->
+      <section id="cards" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4"></section>
+
+      <!-- Paginación -->
+      <nav class="mt-6 flex items-center justify-center gap-3">
+        <button id="prev" class="btn-secondary">Anterior</button>
+        <span id="pageInfo" class="text-sm tabular-nums text-slate-600">—</span>
+        <button id="next" class="btn-primary">Siguiente</button>
+      </nav>
+
+      <!-- Modal -->
+      <dialog id="modal" class="rounded-2xl p-0 w-full max-w-lg backdrop:bg-black/40">
+        <div class="p-5">
+          <button id="closeModal" class="float-right text-slate-500 hover:text-slate-800">✕</button>
+          <div id="modalBody"></div>
+        </div>
+      </dialog>
+    </main>
+  </div>
+
+  <!-- Botón flotante mobile -->
+  <button id="fabTop"
+          class="fixed bottom-4 right-4 z-50 rounded-full shadow-lg border bg-white px-4 py-2 text-sm hidden">
+    ↑ Arriba
+  </button>
+
+  <script src="./script.js"></script>
+</body>
+</html>
